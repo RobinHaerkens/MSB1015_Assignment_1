@@ -14,14 +14,14 @@
 	
   <script>
   
-      query ="SELECT ?disease ?geneCount WHERE{ \
-			 SELECT DISTINCT ?disease (COUNT(?GC) AS ?geneCount) WHERE{\
+      query ="SELECT ?disease ?diseaseLabel ?geneCount WHERE{ \
+			 SELECT DISTINCT ?disease ?diseaseLabel (COUNT(?GC) AS ?geneCount) WHERE{\
 			 ?disease wdt:P31 wd:Q12136.\
 			 ?disease wdt:P2293 ?GC.\
 			 ?GC wdt:P31 wd:Q7187.\
 			 SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\
 			 }\
-		     GROUP BY ?disease ?geneCount\
+		     GROUP BY ?disease ?diseaseLabel ?geneCount\
 			 }\
 		    ORDER BY DESC(?geneCount)\
 			 LIMIT 20"
