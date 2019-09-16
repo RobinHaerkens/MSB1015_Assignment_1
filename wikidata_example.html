@@ -7,12 +7,27 @@
 </head>
 
 <body>
-  <pre id="output"></pre>
+	<h1> Question: Which human diseases  have the most associated genes?</h1>
+	<h3> Only the top 20 diseases and their associated genes are shown</h3>
+		<pre id="output"></pre>
+	
 	
   <script>
   
-  
-    query = "SELECT ?compound ?cas WHERE { ?compound wdt:P231 ?cas } limit 10"
+      query ="SELECT ?disease ?geneCount WHERE{ \
+			 SELECT DISTINCT ?disease (COUNT(?GC) AS ?geneCount) WHERE{\
+			 ?disease wdt:P31 wd:Q12136.\
+			 ?disease wdt:P2293 ?GC.\
+			 ?GC wdt:P31 wd:Q7187.\
+			 SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }\
+			 }\
+		     GROUP BY ?disease ?geneCount\
+			 }\
+		    ORDER BY DESC(?geneCount)\
+			 LIMIT 20"
+
+	
+	
     fetch(
       wdk.sparqlQuery(query)
     ).then( response => response.json()
