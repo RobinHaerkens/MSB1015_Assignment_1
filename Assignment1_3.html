@@ -34,22 +34,17 @@
 		).then( wdk.simplify.sparqlResults
 		).then(
 		  function (response) {
-			document.getElementById('output').innerHTML =
-			JSON.stringify(response, undefined, 2);
-		
-			
-			data = response.map(function(item) { return {"name": item.disease.label, "value": item.geneCount} } )
-			document.getElementById('output').innerHTML =
-			JSON.stringify(data, undefined, 2);
-
-				height = 500;
-				width = 1000;
+				data = response.map(function(item) { return {"name": item.disease.label, "value": item.geneCount} } )
+				height = 700;
+				width = 1800;
 			const svg = d3.select("body").append("svg")
       .attr("viewBox", [0, 0, width, height]);
 	  
-	  	  margin = ({top: 20, right: 0, bottom: 30, left: 40})
-	  xAxis = g => g
+	  	margin = ({top: 20, right: 0, bottom: 30, left: 40})
+		
+	xAxis = g => g
     .attr("transform", `translate(0,${height - margin.bottom})`)
+	.style("text-anchor", "middle", "rotate(-90)")
     .call(d3.axisBottom(x).tickSizeOuter(0))
 	
 	yAxis = g => g
@@ -57,29 +52,30 @@
     .call(d3.axisLeft(y))
     .call(g => g.select(".domain").remove())
 		  
-x = d3.scaleBand()
-    .domain(data.map(d => d.name))
-    .range([margin.left, width - margin.right])
-    .padding(0.1)
+	x = d3.scaleBand()
+		.domain(data.map(d => d.name))
+		.range([margin.left, width - margin.right])
+		
+		.padding(0.1)
 	
-y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)]).nice()
-    .range([height - margin.bottom, margin.top])
+	y = d3.scaleLinear()
+		.domain([0, d3.max(data, d => d.value)]).nice()
+		.range([height - margin.bottom, margin.top])
 
-  svg.append("g")
-      .attr("fill", "steelblue")
-    .selectAll("rect")
-    .data(data)
-    .join("rect")
-      .attr("x", d => x(d.name))
-      .attr("y", d => y(d.value))
-      .attr("height", d => y(0) - y(d.value))
-      .attr("width", x.bandwidth());
-
-  svg.append("g")
+    svg.append("g")
+		.attr("fill", "steelblue")
+		.selectAll("rect")
+		.data(data)
+		.join("rect")
+			.attr("x", d => x(d.name))
+			.attr("y", d => y(d.value))
+			.attr("height", d => y(0) - y(d.value))
+			.attr("width", x.bandwidth());
+	
+	svg.append("g")	
       .call(xAxis);
 
-  svg.append("g")
+	svg.append("g")
       .call(yAxis);
 
   return svg.node();
