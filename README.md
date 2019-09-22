@@ -13,8 +13,9 @@ The working license can be found at: https://github.com/RobinHaerkens/MSB1015_As
 The project is structured in such a way that updates to the code are not directly committed to the master branch but first to a seperate 
 branch on Github aslong as they are a work in progress and will only be committed to the master branch once a paart is finished and functional.
 
-Currently the htmljs.html file contains a query that answers the question of which human diseases have the most genes associated with them.
+Currently the Assignment_1_3.html file contains a query that answers the question of which human diseases have the most genes associated with them.
 This spits out a list of disease names, wikidata disease tags and genecount per disease
 
-The table still has to be visualized in a box plot that shows each bar as its own disease with the height corresponding to the number of 
+The table still is visualized in a box plot that shows each bar as its own disease with the height corresponding to the number of 
 genes.
+However the names still overlap but I was yet unable to discover how to rotate them.
